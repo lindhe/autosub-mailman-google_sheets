@@ -1,3 +1,8 @@
+Everything in this project is licensed under MIT, unless otherwise noted at the
+top of the file.
+
+==== ==== ====
+
 MIT License
 
 Copyright (c) 2017 Andreas Lindhé
