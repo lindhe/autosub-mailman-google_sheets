@@ -35,6 +35,19 @@ def login(domain, mailinglist, password):
   vprint("Successfully logged in!")
   return ((res.cookies, token))
 
+# Extracts list of newly subscribed from confirmation page
+def get_subscribed(pg):
+  new_subs = []
+  subs_list = pg.ul.li.text.split('\n')
+  for sub in subs_list:
+    if sub and 'Already a member' not in sub:
+      new_subs.append(sub)
+  if new_subs:
+    vprint("List of new subscribers: " + str(new_subs))
+  else:
+    vprint("No new subscribers added.")
+  return(new_subs)
+
 def subscribe(domain, mailinglist, cookie, token, members_list):
   global sub_config
   url = 'http://lists.' + domain + '/cgi-bin/mailman/admin/' + mailinglist + '/members/add'
@@ -42,8 +55,7 @@ def subscribe(domain, mailinglist, cookie, token, members_list):
   res = r.post(url, cookies=cookie, data=sub_config, files=members_list)
   res.raise_for_status()
   vprint("Successfully subscribed!")
-  # TODO: return list of new subscribers
-  return (0)
+  return get_subscribed(bs(res.text, 'html.parser'))
 
 # Extracts the csrf_token from html page
 def get_csrf(sub_page):
