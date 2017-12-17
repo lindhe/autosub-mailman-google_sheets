@@ -10,6 +10,17 @@ import requests as r
 
 VERBOSE = True
 
+sub_config = {
+    'csrf_token': '',
+    'subscribe_or_invite': 0,
+    'send_welcome_msg_to_this_batch': 0,
+    'send_notifications_to_list_owner': 0,
+    'subscribees': '',
+    'invitation': '',
+    'setmemberopts_btn': 'Submit Your Changes'
+    }
+
+
 def vprint(string):
   if VERBOSE:
     print(string)
@@ -24,14 +35,14 @@ def login(domain, mailinglist, password):
   vprint("Successfully logged in!")
   return ((res.cookies, token))
 
-def membership_admin():
-  # open members management
-  # open add new member
-  return (0)
-
-def subscribe(domain, mailinglist, token):
-  sub_page = membership_admin()
-  token = get_csrf(sub_page)
+def subscribe(domain, mailinglist, cookie, token, members_list):
+  global sub_config
+  url = 'http://lists.' + domain + '/cgi-bin/mailman/admin/' + mailinglist + '/members/add'
+  sub_config['csrf_token'] = token
+  res = r.post(url, cookies=cookie, data=sub_config, files=members_list)
+  res.raise_for_status()
+  vprint("Successfully subscribed!")
+  # TODO: return list of new subscribers
   return (0)
 
 # Extracts the csrf_token from html page
@@ -47,7 +58,9 @@ def logout(domain, mailinglist, cookie):
   return (0)
 
 def main(domain, mailinglist, password, members_file):
+  members_list = { 'subscribees_upload': open(members_file, 'rb')}
   (session_cookie, csrf_token) = login(domain, mailinglist, password)
+  subscribe(domain, mailinglist, session_cookie, csrf_token, members_list)
   logout(domain, mailinglist, session_cookie)
   return (0)
 
