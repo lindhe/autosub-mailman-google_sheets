@@ -40,14 +40,15 @@ def get_csrf(sub_page):
   token = html.input['value']
   return (token)
 
-def logout():
+def logout(domain, mailinglist, cookie):
+  url = 'http://lists.' + domain + '/cgi-bin/mailman/admin/' + mailinglist + '/logout'
+  r.get(url, cookie).raise_for_status()
+  vprint("Successfully logged out!")
   return (0)
 
-  token = login(domain, mailinglist, password)
-  subscribe(domain, mailinglist, token)
-  logout()
 def main(domain, mailinglist, password, members_file):
   (session_cookie, csrf_token) = login(domain, mailinglist, password)
+  logout(domain, mailinglist, session_cookie)
   return (0)
 
 
