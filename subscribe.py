@@ -8,13 +8,20 @@ import sys
 from bs4 import BeautifulSoup as bs
 import requests as r
 
-# Returns the response object after loggin in
-# TODO: Check that login was successful
+VERBOSE = True
+
+def vprint(string):
+  if VERBOSE:
+    print(string)
+
+# Returns the login cookie token
 def login(password, domain, mailinglist):
   url = 'http://lists.' + domain + '/mailman/admin/' + mailinglist
   credentials = {'adminpw': password, 'admlogin': 'Let me in...'}
   res = r.post(url, credentials)
-  return (res)
+  res.raise_for_status()
+  vprint("Login successful!")
+  return (res.cookies[mailinglist + '+admin'])
 
 def goto_members():
   # open members management
