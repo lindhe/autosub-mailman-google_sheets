@@ -97,7 +97,7 @@ def main(domain, mailinglist, password, members_file):
 
 
 if __name__ == '__main__':
-program = sys.argv[0]
+  program = sys.argv[0]
 
   if len(sys.argv) >= 5:
     d  = sys.argv[1]
