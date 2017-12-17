@@ -78,23 +78,23 @@ def main(domain, mailinglist, password, members_file):
 
 
 if __name__ == '__main__':
-    program = sys.argv[0]
+program = sys.argv[0]
 
-    if len(sys.argv) >= 5:
-        d  = sys.argv[1]
-        ml = sys.argv[2]
-        pw = sys.argv[3]
-        mf = sys.argv[4]
-    else:
-        print("Usage: " + program + " example.com list_name password email_list_file")
-        exit(1)
+  if len(sys.argv) >= 5:
+    d  = sys.argv[1]
+    ml = sys.argv[2]
+    pw = sys.argv[3]
+    mf = sys.argv[4]
+  else:
+    print("Usage: " + program + " example.com list_name password email_list_file")
+    exit(1)
 
+  try:
+    main(d, ml, pw, mf)
+  except KeyboardInterrupt:
+    sys.stderr.write("Interrupted\n")
     try:
-        main(d, ml, pw, mf)
-    except KeyboardInterrupt:
-        sys.stderr.write("Interrupted\n")
-        try:
-            sys.exit(0)
-        except SystemExit:
-            sys.exit(1)
+      sys.exit(0)
+    except SystemExit:
+      sys.exit(1)
 
