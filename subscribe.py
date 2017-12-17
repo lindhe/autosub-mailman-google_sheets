@@ -33,8 +33,11 @@ def subscribe(domain, mailinglist, token):
   token = get_csrf(sub_page)
   return (0)
 
+# Extracts the csrf_token from html page
 def get_csrf(sub_page):
-  return (0)
+  html = bs(sub_page.text, 'html.parser')
+  token = html.input['value']
+  return (token)
 
 def logout():
   return (0)
