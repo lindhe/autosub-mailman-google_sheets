@@ -14,14 +14,15 @@ def vprint(string):
   if VERBOSE:
     print(string)
 
-# Returns the login cookie token
+# Returns session cookie and csrf_token
 def login(domain, mailinglist, password):
   url = 'http://lists.' + domain + '/mailman/admin/' + mailinglist
   credentials = {'adminpw': password, 'admlogin': 'Let me in...'}
   res = r.post(url, credentials)
   res.raise_for_status()
-  vprint("Login successful!")
-  return (res.cookies[mailinglist + '+admin'])
+  token = get_csrf(res)
+  vprint("Successfully logged in!")
+  return ((res.cookies, token))
 
 def membership_admin():
   # open members management
@@ -46,6 +47,7 @@ def logout():
   subscribe(domain, mailinglist, token)
   logout()
 def main(domain, mailinglist, password, members_file):
+  (session_cookie, csrf_token) = login(domain, mailinglist, password)
   return (0)
 
 
