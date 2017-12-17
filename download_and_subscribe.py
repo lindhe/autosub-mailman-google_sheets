@@ -25,8 +25,17 @@
 
 import sys
 
+from download_emails import main as download
+from subscribe import main as subscribe
+
+domain = 'example.com'
+listname = 'list-name'
+password = 'password'
+filename = './members.txt'
+
 def main():
-  print("Main program")
+  download()
+  subscribe(domain, listname, password, filename)
   return (0)
 
 if __name__ == '__main__':
