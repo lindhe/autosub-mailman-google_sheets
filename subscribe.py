@@ -32,8 +32,8 @@ VERBOSE = True
 sub_config = {
     'csrf_token': '',
     'subscribe_or_invite': 0,
-    'send_welcome_msg_to_this_batch': 0,
-    'send_notifications_to_list_owner': 0,
+    'send_welcome_msg_to_this_batch': 1,
+    'send_notifications_to_list_owner': 1,
     'subscribees': '',
     'invitation': '',
     'setmemberopts_btn': 'Submit Your Changes'
